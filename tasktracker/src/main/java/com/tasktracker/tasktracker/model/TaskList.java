@@ -8,6 +8,9 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tasklist")
 @Getter
@@ -29,4 +32,7 @@ public class TaskList {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     User user;
+
+    @OneToMany(mappedBy = "taskList",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 }
