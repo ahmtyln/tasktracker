@@ -8,37 +8,25 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
-
 @Entity
-@Table (name = "tasks")
-@Setter
+@Table(name = "tasklist")
 @Getter
+@Setter
 @NoArgsConstructor
-public class Task {
+public class TaskList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "list_title",nullable = false)
     private String title;
 
-    @Column(name = "desc")
+    @Column(name = "list_desc")
     private String description;
-
-    @Column(name = "expiry")
-    private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tasklist_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    TaskList taskList;
-
 }

@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -23,7 +25,7 @@ public class User {
     private String username;
     @Column(name = "email",nullable = false,unique = true,length = 100)
     private String email;
-    @Column(name = "email",nullable = false)
+    @Column(name = "password",nullable = false)
     private String password;
 
     @CreationTimestamp
@@ -45,4 +47,12 @@ public class User {
     protected void onPreUpdate(){
         updatedAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskList> taskLists = new ArrayList<>();
+
+
 }
