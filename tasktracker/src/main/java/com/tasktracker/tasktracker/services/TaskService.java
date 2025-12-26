@@ -1,84 +1,76 @@
 package com.tasktracker.tasktracker.services;
 
+import com.tasktracker.tasktracker.DTOs.TaskCreateRequest;
+import com.tasktracker.tasktracker.DTOs.TaskResponse;
+import com.tasktracker.tasktracker.DTOs.TaskUpdateRequest;
+import com.tasktracker.tasktracker.exceptions.NotFoundException;
+import com.tasktracker.tasktracker.mapper.TaskMapper;
 import com.tasktracker.tasktracker.model.Task;
+import com.tasktracker.tasktracker.model.TaskList;
+import com.tasktracker.tasktracker.repository.TaskListRepository;
 import com.tasktracker.tasktracker.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final TaskListRepository taskListRepository;
+    private final TaskMapper taskMapper;
 
-    public TaskService(TaskRepository taskRepository){
+    public TaskService(TaskRepository taskRepository, TaskListRepository taskListRepository, TaskMapper taskMapper){
         this.taskRepository=taskRepository;
+        this.taskListRepository = taskListRepository;
+        this.taskMapper = taskMapper;
     }
 
-    public List<Task> getAllTasks(){
-        return taskRepository.findAll();
+    public List<TaskResponse> getAllTasks(Long taskListId){
+        List<Task> tasks = taskRepository.findByTaskListId(taskListId);
+        return tasks.stream().map(t-> taskMapper.toResponse(t)).toList();
     }
 
-    public Task getTaskById(Long taskId){
-        return taskRepository.findById(taskId).orElse(null);
-    }
-
-    public Task updateTaskById(Long taskId, Task newTask){
-        Task task = taskRepository.findById(taskId).orElse(null);
-        if(task==null) return null;
-        task.setTitle(newTask.getTitle());
-        task.setDescription(newTask.getDescription());
-        task.setTaskList(newTask.getTaskList());
-        task.setUser(newTask.getUser());
-
-        return taskRepository.save(task);
-    }
-
-    public void deleteTaskById(Long taskId){
-        taskRepository.deleteById(taskId);
-    }
-
-    public List<Task> getAllTaskOfUserByUserId(Long userId){
-        List<Task> userTaskList;
-        userTaskList = taskRepository.findByUserId(userId);
-        return userTaskList;
-    }
-
-    public Task updateTaskOfUserByTaskId(Long userId, Long taskId, Task newTask){
-
-        return taskRepository.findByUserId(userId).stream().filter(t -> t.getId().equals(taskId))
-                .findFirst()
-                .map(task ->{
-                    task.setTitle(newTask.getTitle());
-                    task.setDescription(newTask.getDescription());
-                    task.setUser(newTask.getUser());
-                    task.setTaskList(newTask.getTaskList());
-                    return taskRepository.save(task);
-        })
-                .orElse(null);
-    }
-
-
-    public Task getOneTaskOfUserByTaskId(Long userId, Long taskId){
-        return taskRepository.findByUserId(userId)
-                .stream()
-                .filter(t-> t.getId().equals(taskId))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void deleteTaskOfUserByTaskId(Long userId, Long taskId){
-        Task task = taskRepository.findByUserId(userId)
-                .stream()
-                .filter(t-> t.getId().equals(taskId))
-                .findFirst()
-                .orElse(null);
-
-        if(task!= null){
-            taskRepository.delete(task);
+    public TaskResponse getOneTaskById(Long taskListId, Long taskId){
+        Task task = taskRepository.findByIdAndTaskListId(taskId,taskListId);
+        if (task == null) {
+            throw new NotFoundException("Task not found");
         }
+        return taskMapper.toResponse(task);
+    }
 
-        
+    public TaskResponse createTask(Long taskListId, TaskCreateRequest request){
+        TaskList taskList = taskListRepository.findById(taskListId).orElseThrow(()-> new NotFoundException("TaskList not Found."));
+        Task newTask = new Task();
+        newTask.setTitle(request.getTitle());
+        newTask.setDescription(request.getDescription());
+        newTask.setEndDate(request.getEndDate());
+
+        newTask.setTaskList(taskList);
+
+        Task savedTask =  taskRepository.save(newTask);
+
+        return taskMapper.toResponse(savedTask);
+    }
+
+    public TaskResponse updateTaskById(Long taskListId, Long taskId, TaskUpdateRequest request){
+        Task task = taskRepository.findByIdAndTaskListId(taskId,taskListId);
+        if (task == null) {
+            throw new NotFoundException("Task not found");
+        }
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setEndDate(request.getEndDate());
+
+        Task updatedTask = taskRepository.save(task);
+        return taskMapper.toResponse(updatedTask);
+    }
+
+    public void deleteTaskById(Long taskListId,Long taskId){
+        Task task = taskRepository.findByIdAndTaskListId(taskId,taskListId);
+        if (task == null) {
+            throw new NotFoundException("Task not found");
+        }
+        taskRepository.delete(task);
     }
 
 }
