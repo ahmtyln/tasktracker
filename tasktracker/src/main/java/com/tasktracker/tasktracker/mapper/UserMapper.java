@@ -1,0 +1,16 @@
+package com.tasktracker.tasktracker.mapper;
+
+import com.tasktracker.tasktracker.DTOs.UserResponse;
+import com.tasktracker.tasktracker.model.User;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserMapper {
+    public UserResponse toResponse(User user){
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        return response;
+    }
+}

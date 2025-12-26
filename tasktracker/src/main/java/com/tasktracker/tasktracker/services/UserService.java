@@ -1,8 +1,12 @@
 package com.tasktracker.tasktracker.services;
 
+import com.tasktracker.tasktracker.DTOs.UserCreateRequest;
+import com.tasktracker.tasktracker.DTOs.UserResponse;
+import com.tasktracker.tasktracker.DTOs.UserUpdateRequest;
+import com.tasktracker.tasktracker.exceptions.NotFoundException;
+import com.tasktracker.tasktracker.mapper.UserMapper;
 import com.tasktracker.tasktracker.model.User;
 import com.tasktracker.tasktracker.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,33 +14,46 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository,UserMapper userMapper){
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers(){
+        return userRepository.findAll().stream().map(userMapper::toResponse).toList();
     }
 
-    public User getUserById(Long userId){
-        return userRepository.findById(userId).orElse(null);
-    }
-
-    public User createUser(User newUser){
-        return userRepository.save(newUser);
-    }
-
-    public User updateUserById(Long userId, User updatedUser){
+    public UserResponse getUserById(Long userId){
         User user = userRepository.findById(userId).orElse(null);
-        if(user==null) return null;
-        user.setUsername(updatedUser.getUsername());
-        user.setEmail(updatedUser.getEmail());
-        user.setPassword(updatedUser.getPassword());
-        user.setTasks(updatedUser.getTasks());
-        user.setTaskLists(updatedUser.getTaskLists());
+        if(user==null){
+            throw new NotFoundException("User did not found.");
+        }
+        return userMapper.toResponse(user);
+    }
 
-        return userRepository.save(user);
+    public UserResponse createUser(UserCreateRequest request){
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+
+        User createdUser = userRepository.save(user);
+        return userMapper.toResponse(createdUser);
+    }
+
+    public UserResponse updateUserById(Long userId, UserUpdateRequest request){
+        User user = userRepository.findById(userId).orElse(null);
+        if(user==null){
+            throw new NotFoundException("User did not found!");
+        }
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+
+        User updatedUser = userRepository.save(user);
+        return userMapper.toResponse(updatedUser);
     }
 
 

@@ -1,8 +1,12 @@
 package com.tasktracker.tasktracker.controllers;
 
+import com.tasktracker.tasktracker.DTOs.UserCreateRequest;
+import com.tasktracker.tasktracker.DTOs.UserResponse;
+import com.tasktracker.tasktracker.DTOs.UserUpdateRequest;
 import com.tasktracker.tasktracker.model.User;
 import com.tasktracker.tasktracker.services.UserService;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,31 +22,23 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>>  getAllUsers(){
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long userId){
-        User user = userService.getUserById(userId);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long userId){
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User newUser){
-        return ResponseEntity.ok(userService.createUser(newUser));
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable("id") Long userId, @RequestBody User updatedUser){
-        User user = userService.updateUserById(userId,updatedUser);
-        if(user == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponse> updateUserById(@PathVariable("id") Long userId, @RequestBody UserUpdateRequest request){
+        return ResponseEntity.ok(userService.updateUserById(userId,request));
     }
 
     @DeleteMapping("/{id}")
