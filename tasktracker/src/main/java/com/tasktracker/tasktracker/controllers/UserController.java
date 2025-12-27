@@ -5,6 +5,7 @@ import com.tasktracker.tasktracker.DTOs.UserResponse;
 import com.tasktracker.tasktracker.DTOs.UserUpdateRequest;
 import com.tasktracker.tasktracker.model.User;
 import com.tasktracker.tasktracker.services.UserService;
+import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateRequest request){
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUserById(@PathVariable("id") Long userId, @RequestBody UserUpdateRequest request){
+    public ResponseEntity<UserResponse> updateUserById(@PathVariable("id") Long userId, @Valid @RequestBody UserUpdateRequest request){
         return ResponseEntity.ok(userService.updateUserById(userId,request));
     }
 

@@ -5,6 +5,7 @@ import com.tasktracker.tasktracker.DTOs.TaskResponse;
 import com.tasktracker.tasktracker.DTOs.TaskUpdateRequest;
 import com.tasktracker.tasktracker.model.Task;
 import com.tasktracker.tasktracker.services.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponse> createTask(@PathVariable ("taskListId") Long taskListId,@RequestBody TaskCreateRequest request){
+    public ResponseEntity<TaskResponse> createTask(@PathVariable ("taskListId") Long taskListId,@Valid @RequestBody TaskCreateRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(taskListId,request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> updateTaskById(@PathVariable ("taskListId") Long taskListId,@PathVariable("id") Long taskId, @RequestBody TaskUpdateRequest request){
+    public ResponseEntity<TaskResponse> updateTaskById(@PathVariable ("taskListId") Long taskListId,@PathVariable("id") Long taskId, @Valid @RequestBody TaskUpdateRequest request){
         return ResponseEntity.ok(taskService.updateTaskById(taskListId,taskId,request));
     }
 

@@ -9,6 +9,7 @@ import com.tasktracker.tasktracker.model.Task;
 import com.tasktracker.tasktracker.model.TaskList;
 import com.tasktracker.tasktracker.services.TaskListService;
 import com.tasktracker.tasktracker.services.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +37,12 @@ public class TaskListController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskListResponse> createTaskList(@RequestBody TaskListCreateRequest request){
+    public ResponseEntity<TaskListResponse> createTaskList(@Valid @RequestBody TaskListCreateRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(taskListService.createTaskList(request));
     }
 
     @PutMapping("/{taskListId}")
-    public ResponseEntity<TaskListResponse> updateTaskList(@PathVariable("taskListId") Long taskListId,@RequestBody TaskListUpdateRequest request){
+    public ResponseEntity<TaskListResponse> updateTaskList(@PathVariable("taskListId") Long taskListId,@Valid @RequestBody TaskListUpdateRequest request){
         return ResponseEntity.ok(taskListService.updateTaskList(taskListId,request));
     }
 
