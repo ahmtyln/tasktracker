@@ -9,25 +9,22 @@ import com.tasktracker.tasktracker.model.Task;
 import com.tasktracker.tasktracker.model.TaskList;
 import com.tasktracker.tasktracker.repository.TaskListRepository;
 import com.tasktracker.tasktracker.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskListRepository taskListRepository;
     private final TaskMapper taskMapper;
 
-    public TaskService(TaskRepository taskRepository, TaskListRepository taskListRepository, TaskMapper taskMapper){
-        this.taskRepository=taskRepository;
-        this.taskListRepository = taskListRepository;
-        this.taskMapper = taskMapper;
-    }
 
     public List<TaskResponse> getAllTasks(Long taskListId){
         List<Task> tasks = taskRepository.findByTaskListId(taskListId);
-        return tasks.stream().map(t-> taskMapper.toResponse(t)).toList();
+        return tasks.stream().map(taskMapper::toResponse).toList();
     }
 
     public TaskResponse getOneTaskById(Long taskListId, Long taskId){

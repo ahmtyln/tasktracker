@@ -1,5 +1,6 @@
 package com.tasktracker.tasktracker.model;
 
+import com.tasktracker.tasktracker.roles.Roles;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,10 @@ public class User {
     private String email;
     @Column(name = "password",nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Roles role = Roles.USER;
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)

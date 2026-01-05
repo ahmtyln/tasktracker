@@ -7,19 +7,17 @@ import com.tasktracker.tasktracker.exceptions.NotFoundException;
 import com.tasktracker.tasktracker.mapper.UserMapper;
 import com.tasktracker.tasktracker.model.User;
 import com.tasktracker.tasktracker.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository,UserMapper userMapper){
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     public List<UserResponse> getAllUsers(){
         return userRepository.findAll().stream().map(userMapper::toResponse).toList();

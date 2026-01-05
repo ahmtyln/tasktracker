@@ -8,19 +8,17 @@ import com.tasktracker.tasktracker.exceptions.NotFoundException;
 import com.tasktracker.tasktracker.mapper.TaskListMapper;
 import com.tasktracker.tasktracker.model.TaskList;
 import com.tasktracker.tasktracker.repository.TaskListRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TaskListService {
     private final TaskListRepository taskListRepository;
     private final TaskListMapper taskListMapper;
 
-    public TaskListService(TaskListRepository taskListRepository,TaskListMapper taskListMapper){
-        this.taskListRepository=taskListRepository;
-        this.taskListMapper = taskListMapper;
-    }
 
     public List<TaskListResponse> getAllTaskLists(){
         return taskListRepository.findAll().stream().map(taskListMapper::toResponse).toList();

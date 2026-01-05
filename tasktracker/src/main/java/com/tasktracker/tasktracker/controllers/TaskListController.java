@@ -10,6 +10,7 @@ import com.tasktracker.tasktracker.model.TaskList;
 import com.tasktracker.tasktracker.services.TaskListService;
 import com.tasktracker.tasktracker.services.TaskService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasklists")
+@RequiredArgsConstructor
 public class TaskListController {
     private final TaskListService taskListService;
 
-
-    public TaskListController(TaskListService taskListService){
-        this.taskListService = taskListService;
-    }
 
     @GetMapping
     public ResponseEntity<List<TaskListResponse>> getAllTaskLists(){
