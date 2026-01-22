@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException{
-        User foundUser = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("There is no User!"));
+    public CustomUserDetails loadUserByUsername (String username) throws UsernameNotFoundException{
+        User foundUser = userRepository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("There is no User!"));
         return new CustomUserDetails(foundUser);
 
     }

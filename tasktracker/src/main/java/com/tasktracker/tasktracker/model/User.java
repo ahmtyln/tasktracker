@@ -18,6 +18,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class User {
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +38,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Roles role = Roles.USER;
+    private Roles role = Roles.ROLE_USER;
 
     @CreationTimestamp
     @Column(name = "created_at",updatable = false)
