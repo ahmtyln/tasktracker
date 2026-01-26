@@ -13,9 +13,9 @@ import lombok.*;
 public class LoginDto {
     @NotBlank(message = "Email cannot be empty.")
     @Email(message = "Email format is invalid.")
-    private String username;
+    private String email;
 
     @NotBlank(message = "Password cannot be empty.")
-    @Size(min=4,message = "Password cannot be less then 4 characters.")
+    @Size(min=2,message = "Password cannot be less then 2 characters.")
     private String password;
 }

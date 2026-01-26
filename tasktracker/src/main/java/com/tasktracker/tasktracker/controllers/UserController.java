@@ -10,37 +10,43 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long userId){
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
-    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/users")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
-    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserResponse> updateUserById(@PathVariable("id") Long userId, @Valid @RequestBody UserUpdateRequest request){
         return ResponseEntity.ok(userService.updateUserById(userId,request));
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long userId){
         userService.deleteUserById(userId);
         return ResponseEntity.noContent().build();

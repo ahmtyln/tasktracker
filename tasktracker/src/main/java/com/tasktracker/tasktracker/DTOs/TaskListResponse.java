@@ -10,10 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TaskListResponse {
     private Long id;
-
-    @NotBlank(message = "Title cannot be empty")
     private String title;
-
-    @NotBlank(message = "Description cannot be empty")
     private String description;
 }

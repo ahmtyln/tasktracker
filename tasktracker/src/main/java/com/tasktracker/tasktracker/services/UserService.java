@@ -8,6 +8,7 @@ import com.tasktracker.tasktracker.mapper.UserMapper;
 import com.tasktracker.tasktracker.model.User;
 import com.tasktracker.tasktracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     public List<UserResponse> getAllUsers(){
@@ -35,7 +37,7 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         User createdUser = userRepository.save(user);
         return userMapper.toResponse(createdUser);

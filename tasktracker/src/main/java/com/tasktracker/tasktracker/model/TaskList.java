@@ -34,5 +34,5 @@ public class TaskList {
     User user;
 
     @OneToMany(mappedBy = "taskList",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks ;
 }

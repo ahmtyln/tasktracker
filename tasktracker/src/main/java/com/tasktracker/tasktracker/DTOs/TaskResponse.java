@@ -12,11 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TaskResponse {
     private Long id;
-
-    @NotBlank(message = "Title cannot be empty")
     private String title;
-
-    @NotBlank(message = "Description cannot be empty")
     private String description;
     private LocalDate endDate;
 

@@ -20,6 +20,6 @@ public class UserCreateRequest {
     private String email;
 
     @NotBlank(message = "Password cannot be empty.")
-    @Size(min = 6, message = "Password must be at least 6 characters.")
+    @Size(min = 2, message = "Password must be at least 2 characters.")
     private String password;
 }

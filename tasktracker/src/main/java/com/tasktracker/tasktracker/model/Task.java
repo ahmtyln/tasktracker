@@ -11,9 +11,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 @Entity
-@Table (name = "tasks")
-@Setter
+@Table(name = "tasks")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Task {
     @Id
@@ -23,11 +23,17 @@ public class Task {
     @Column(name = "title",nullable = false)
     private String title;
 
-    @Column(name = "desc")
+    @Column(name = "task_desc")
     private String description;
 
     @Column(name = "expiry")
     private LocalDate endDate;
+
+    @Column(name = "status", nullable = false)
+    private TaskStatus status;
+
+    @Column(name="priority", nullable = false)
+    private TaskPriority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)

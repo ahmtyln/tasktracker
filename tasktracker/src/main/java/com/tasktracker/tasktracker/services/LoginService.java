@@ -25,7 +25,7 @@ public class LoginService {
 
     public AuthResponse login(LoginDto request){
        try {
-           CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(request.getUsername());
+           CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(request.getEmail());
            if(passwordEncoder.matches(request.getPassword(), userDetails.getPassword())){
                String token = jwtService.generateToken(userDetails);
 
@@ -33,7 +33,7 @@ public class LoginService {
                        .builder()
                        .token(token)
                        .username(userDetails.getUsername())
-                       .email(userDetails.getEmail())
+                       .email(userDetails.getUsername())
                        .role(userDetails.getAuthorities().iterator().next().getAuthority())
                        .build();
 
@@ -41,7 +41,7 @@ public class LoginService {
                throw new BadCredentialsException("False Password");
            }
        } catch (UsernameNotFoundException e) {
-           throw new UsernameNotFoundException("User ist not found." + request.getUsername());
+           throw new UsernameNotFoundException("User ist not found." + request.getEmail());
        } catch (Exception e) {
            throw new RuntimeException("Login error: " + e.getMessage());
        }
