@@ -53,6 +53,8 @@ public class TaskService {
         Task newTask = new Task();
         newTask.setTitle(request.getTitle());
         newTask.setDescription(request.getDescription());
+        newTask.setPriority(request.getPriority());
+        newTask.setStatus(request.getStatus());
         newTask.setEndDate(request.getEndDate());
         newTask.setTaskList(taskList);
         newTask.setUser(user);
@@ -72,6 +74,8 @@ public class TaskService {
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
+        task.setPriority(request.getPriority());
+        task.setStatus(request.getStatus());
         task.setEndDate(request.getEndDate());
 
         Task updatedTask = taskRepository.save(task);

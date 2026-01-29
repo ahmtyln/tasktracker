@@ -1,6 +1,6 @@
 import React from 'react'
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi, taskListApi } from '../services/authApi'
 
@@ -14,7 +14,7 @@ const DashboardPage = () => {
 
   useEffect(() =>{
     const fetchTaskLists = async() =>{
-    const response = await taskListApi.getAll()
+    const response = await taskListApi.getAllTaskList()
     console.log('Backendden gelen:', response.data) 
     setTasklists(response.data)
   }
@@ -23,15 +23,12 @@ const DashboardPage = () => {
 
   
 
-  
-
   const createNewKartAndTaskList = () =>{
     setClicked(true);
   }
 
 
-  const createNewTaskList = (e) =>{
-    e.preventDefault();
+  const createNewTaskList = () =>{
     navigate("/new-tasklist")
   }
 
@@ -69,14 +66,14 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
    
-        {tasklists.map((task) => (
+        {tasklists.map((tasklist) => (
          
-            <div onClick={() => navigate("/tasklist/task")} className="group cursor-pointer bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+            <div key={tasklist.id} onClick={() => navigate(`/tasklists/${tasklist.id}/tasks`)} className="group cursor-pointer bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
               <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2">
-                Title: {task.title}
+                Title: {tasklist.title}
               </h3>
               <div className="text-sm font-normal text-gray-600 mb-3 line-clamp-1">
-                {task.description}
+                {tasklist.description}
               </div>
               <div className="flex items-center text-sm text-gray-500 mb-2 pt-5">
                 <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>

@@ -66,12 +66,12 @@ const handleLoginSubmit = async (e) =>{
             Login
           </button>
         </form>
-        <p className='flex-direction column text-end mt-6 text-sm text-emerald-400'>
+        <div className='flex-direction column text-end mt-6 text-sm text-emerald-400'>
             <p>Don't you have an account?</p>
             <Link to="/register" className='transition-all duration-200 transform hover:scale-[2] hover:text-emerald-950'>
               <span className='inline-block'>Register</span>
             </Link>
-        </p>
+        </div>
       </div>
     </div>
   )

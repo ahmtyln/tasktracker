@@ -11,7 +11,7 @@ const NewTaskListPage = () => {
     const handleTasklistSubmit = async(e) =>{
         e.preventDefault();
         try {
-            const response = await taskListApi.create({title,description});
+            const response = await taskListApi.createTaskList({title,description});
             console.log(response);
             navigate('/dashboard');
         } catch (error) {

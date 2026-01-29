@@ -1,5 +1,7 @@
 package com.tasktracker.tasktracker.DTOs;
 
+import com.tasktracker.tasktracker.model.TaskPriority;
+import com.tasktracker.tasktracker.model.TaskStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -18,5 +20,7 @@ public class TaskUpdateRequest {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
+    private TaskPriority priority;
+    private TaskStatus status;
     private LocalDate endDate;
 }

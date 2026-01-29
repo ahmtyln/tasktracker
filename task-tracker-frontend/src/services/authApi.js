@@ -32,7 +32,12 @@ export const authApi = {
 }
 
 export const taskListApi = {
-    getAll: () => api.get('/tasklists'),
-    create: (formData) => api.post('/tasklists', formData)
+    getAllTaskList: () => api.get('/tasklists'),
+    createTaskList: (formData) => api.post('/tasklists', formData)
+}
+
+export const taskApi = {
+    getAllTask: (taskListId) => api.get(`/tasklists/${taskListId}/tasks`),
+    createTask: (taskListId,data) => api.post(`/tasklists/${taskListId}/tasks`, data)
 }
 

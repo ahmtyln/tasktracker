@@ -2,6 +2,8 @@ package com.tasktracker.tasktracker.DTOs;
 
 import com.tasktracker.tasktracker.model.TaskList;
 
+import com.tasktracker.tasktracker.model.TaskPriority;
+import com.tasktracker.tasktracker.model.TaskStatus;
 import com.tasktracker.tasktracker.model.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -19,5 +21,8 @@ public class TaskCreateRequest {
 
     @NotBlank(message = "Description cannot be empty")
     private String description;
+
+    private TaskPriority priority;
+    private TaskStatus status;
     private LocalDate endDate;
 }

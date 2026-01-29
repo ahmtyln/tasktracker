@@ -12,6 +12,8 @@ public class TaskMapper {
         mapper.setId(task.getId());
         mapper.setTitle(task.getTitle());
         mapper.setDescription(task.getDescription());
+        mapper.setPriority(task.getPriority());
+        mapper.setStatus(task.getStatus());
         mapper.setEndDate(task.getEndDate());
 
         return mapper;
