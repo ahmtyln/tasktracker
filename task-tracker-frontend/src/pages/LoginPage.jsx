@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authApi } from '../services/authApi'
-import { AxiosError } from 'axios'
+
 
 
 const LoginPage = () => {
@@ -10,6 +10,7 @@ const [password, setPassword] = useState("")
 const [loading, setLoading] = useState(false)
 const [error, setError] = useState("")
 
+const navigate = useNavigate()
 
 const handleLoginSubmit = async (e) =>{
   e.preventDefault()
@@ -22,6 +23,7 @@ const handleLoginSubmit = async (e) =>{
     setEmail("")
     setPassword("")
     console.log('✅ Login geschafft!', response)
+    navigate("/dashboard");
   } catch (err) {
     setError("Login fehlgeschlagen")
   }finally {
@@ -67,7 +69,7 @@ const handleLoginSubmit = async (e) =>{
         <p className='flex-direction column text-end mt-6 text-sm text-emerald-400'>
             <p>Don't you have an account?</p>
             <Link to="/register" className='transition-all duration-200 transform hover:scale-[2] hover:text-emerald-950'>
-              <p>Register</p>
+              <span className='inline-block'>Register</span>
             </Link>
         </p>
       </div>
