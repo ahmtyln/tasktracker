@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { authApi } from '../services/authApi'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterPage = () => {
 
@@ -9,6 +10,7 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+    const navigate = useNavigate();
 
     const handleRegisterSubmit = async (e) =>{
         e.preventDefault();
@@ -20,6 +22,7 @@ const RegisterPage = () => {
             setEmail("")
             setPassword("")
             console.log("Register und login geschafft!", response)
+            navigate("/dashboard");
         } catch (error) {
             setError("Register fehlgeschlagen")
         }finally{

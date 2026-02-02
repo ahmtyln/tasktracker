@@ -21,12 +21,13 @@ api.interceptors.request.use((config) => {
 export const authApi = {
 
     login : async (credentials) => {
-        const response = await axios.post(`${API_BASE}/auth/login`,credentials)
+        const response = await api.post(`/auth/login`,credentials)
+        localStorage.setItem('token', response.data.token)
         return response.data
     },
 
     register : async (userData) =>{
-        const response = await axios.post(`${API_BASE}/auth/register`, userData)
+        const response = await api.post(`/auth/register`, userData)
         return response.data
     }
 }
@@ -38,6 +39,9 @@ export const taskListApi = {
 
 export const taskApi = {
     getAllTask: (taskListId) => api.get(`/tasklists/${taskListId}/tasks`),
-    createTask: (taskListId,data) => api.post(`/tasklists/${taskListId}/tasks`, data)
+    getOneTask: (taskListId,id) => api.get(`/tasklists/${taskListId}/tasks/${id}`),
+    createTask: (taskListId,data) => api.post(`/tasklists/${taskListId}/tasks`, data),
+    deleteTask: (taskListId,id) => api.delete(`/tasklists/${taskListId}/tasks/${id}`),
+    updateTask: (taskListId,id,data) => api.put(`/tasklists/${taskListId}/tasks/${id}`,data)
 }
 

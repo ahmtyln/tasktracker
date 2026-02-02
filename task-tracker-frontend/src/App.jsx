@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage'
 import NewTaskListPage from './pages/NewTaskListPage'
 import TasksPage from './pages/TasksPage'
 import NewTaskPage from './pages/NewTaskPage'
+import UpdateOneTaskPage from './pages/UpdateOneTaskPage'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/dashboard' element={<DashboardPage/>}/>
         <Route path='/new-tasklist' element={<NewTaskListPage/>}/>
         <Route path='/tasklists/:taskListId/tasks' element={<TasksPage/>}/>
+        <Route path='/tasklists/:taskListId/tasks/:id' element={<UpdateOneTaskPage/>}/>
         <Route path='/tasklists/:taskListId/tasks/new-task' element={<NewTaskPage/>}/>
         <Route path='/' element={<Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/login" />} />

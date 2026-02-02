@@ -3,6 +3,7 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi, taskListApi } from '../services/authApi'
+import Header from '../components/Header'
 
 const DashboardPage = () => {
 
@@ -36,16 +37,7 @@ const DashboardPage = () => {
     
     <div className='min-h-screen bg-slate-200 '>
     
-     <header className="bg-white shadow-lg border-transparent fixed top-0 left-0 w-full z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">TaskTracker</h1>
-            <button className="px-4 py-2 bg-red-500 hover:cursor-pointer hover:bg-red-600 text-white rounded-lg">
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
+     <Header />
 
 
   <main className="pt-20">  {/* Header boyu kadar padding */}
@@ -77,7 +69,7 @@ const DashboardPage = () => {
               </div>
               <div className="flex items-center text-sm text-gray-500 mb-2 pt-5">
                 <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
-                12 Tasks • In Progress
+                {tasklist.taskCount} Tasks • In Progress
               </div>
             </div>
            

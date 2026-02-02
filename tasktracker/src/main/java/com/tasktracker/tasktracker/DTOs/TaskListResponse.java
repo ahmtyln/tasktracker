@@ -12,4 +12,5 @@ public class TaskListResponse {
     private Long id;
     private String title;
     private String description;
+    private Long taskCount;
 }

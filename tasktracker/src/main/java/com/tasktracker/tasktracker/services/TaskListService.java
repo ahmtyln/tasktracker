@@ -22,8 +22,6 @@ public class TaskListService {
 
 
 
-
-
     public List<TaskListResponse> getAllTaskLists(){
         User user = authenticatedUserService.getCurrentUser();
         return taskListRepository

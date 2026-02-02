@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task,Long> {
     List<Task> findByTaskListAndUser(TaskList taskList, User user);
     Optional<Task> findByIdAndTaskListAndUser(Long taskId, TaskList taskList, User user);
+
+    Long countByTaskList(TaskList taskList);
+
 }
